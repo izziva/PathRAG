@@ -1,6 +1,6 @@
-accelerate
-aioboto3
 aiohttp
+litellm
+python-dotenv
 
 # database packages
 graspologic
@@ -8,8 +8,6 @@ hnswlib
 nano-vectordb
 neo4j
 networkx
-ollama
-openai
 oracledb
 psycopg[binary,pool]
 pymilvus
@@ -23,6 +21,4 @@ tenacity
 
 # LLM packages
 tiktoken
-torch
-transformers
 xxhash

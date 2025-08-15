@@ -1,21 +1,22 @@
 import os
 from PathRAG import PathRAG, QueryParam
-from PathRAG.llm import gpt_4o_mini_complete
+from PathRAG.llm import litellm_completion
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 WORKING_DIR = ""
-
-api_key=""
-os.environ["OPENAI_API_KEY"] = api_key
-base_url="https://api.openai.com/v1"
-os.environ["OPENAI_API_BASE"]=base_url
 
 
 if not os.path.exists(WORKING_DIR):
     os.mkdir(WORKING_DIR)
 
+# Since litellm_completion is now the default, we don't need to pass it explicitly.
+# However, to keep the structure of this test file, we will pass it.
 rag = PathRAG(
     working_dir=WORKING_DIR,
-    llm_model_func=gpt_4o_mini_complete,  
+    llm_model_func=litellm_completion,
 )
 
 data_file=""
