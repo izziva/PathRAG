@@ -1,8 +1,7 @@
 aiohttp
 litellm
 python-dotenv
-
-# database packages
+numpy
 graspologic
 hnswlib
 nano-vectordb
@@ -14,11 +13,7 @@ pymilvus
 pymongo
 pymysql
 pyvis
-# lmdeploy[all]
 sqlalchemy
 tenacity
-
-
-# LLM packages
 tiktoken
 xxhash

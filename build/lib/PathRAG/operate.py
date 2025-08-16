@@ -70,7 +70,7 @@ async def _handle_entity_relation_summary(
     )
 
     tokens = encode_string_by_tiktoken(description, model_name=tiktoken_model_name)
-    if len(tokens) < summary_max_tokens: 
+    if len(tokens) < summary_max_tokens:
         return description
     prompt_template = PROMPTS["summarize_entity_descriptions"]
     use_description = decode_tokens_by_tiktoken(
@@ -93,7 +93,7 @@ async def _handle_single_entity_extraction(
 ):
     if len(record_attributes) < 4 or record_attributes[0] != '"entity"':
         return None
-   
+
     entity_name = clean_str(record_attributes[1].upper())
     if not entity_name.strip():
         return None
@@ -114,7 +114,7 @@ async def _handle_single_relationship_extraction(
 ):
     if len(record_attributes) < 5 or record_attributes[0] != '"relationship"':
         return None
-   
+
     source = clean_str(record_attributes[1].upper())
     target = clean_str(record_attributes[2].upper())
     edge_description = clean_str(record_attributes[3])
@@ -260,7 +260,7 @@ async def extract_entities(
     entity_extract_max_gleaning = global_config["entity_extract_max_gleaning"]
 
     ordered_chunks = list(chunks.items())
-  
+
     language = global_config["addon_params"].get(
         "language", PROMPTS["DEFAULT_LANGUAGE"]
     )
@@ -282,7 +282,7 @@ async def extract_entities(
         entity_types=",".join(entity_types),
         language=language,
     )
-  
+
     examples = examples.format(**example_context_base)
 
     entity_extract_prompt = PROMPTS["entity_extraction"]
@@ -541,7 +541,7 @@ async def kg_query(
         query_param,
     )
 
-    
+
 
     if query_param.only_need_context:
         return context
@@ -595,7 +595,6 @@ async def _build_query_context(
 ):
     ll_entities_context, ll_relations_context, ll_text_units_context = "", "", ""
     hl_entities_context, hl_relations_context, hl_text_units_context = "", "", ""
-    entities_context, relations_context, text_units_context = "", "", ""
 
     ll_kewwords, hl_keywrds = query[0], query[1]
     if query_param.mode in ["local", "hybrid"]:
@@ -710,7 +709,7 @@ async def _get_node_data(
         {**n, "entity_name": k["entity_name"], "rank": d}
         for k, n, d in zip(results, node_datas, node_degrees)
         if n is not None
-    ]  
+    ]
     use_text_units = await _find_most_related_text_unit_from_entities(
         node_datas, query_param, text_chunks_db, knowledge_graph_inst
     )
@@ -747,7 +746,7 @@ async def _get_node_data(
     for i, t in enumerate(use_text_units):
         text_units_section_list.append([i, t["content"]])
     text_units_context = list_of_list_to_csv(text_units_section_list)
-    
+
     return entities_context,relations_context,text_units_context
 
 
@@ -779,7 +778,7 @@ async def _find_most_related_text_unit_from_entities(
     all_one_hop_text_units_lookup = {
         k: set(split_string_by_multi_markers(v["source_id"], [GRAPH_FIELD_SEP]))
         for k, v in zip(all_one_hop_nodes, all_one_hop_nodes_data)
-        if v is not None and "source_id" in v  
+        if v is not None and "source_id" in v
     }
 
     all_text_units_lookup = {}
@@ -1015,16 +1014,16 @@ from collections import defaultdict
 async def find_paths_and_edges_with_stats(graph, target_nodes):
 
     result = defaultdict(lambda: {"paths": [], "edges": set()})
-    path_stats = {"1-hop": 0, "2-hop": 0, "3-hop": 0}   
+    path_stats = {"1-hop": 0, "2-hop": 0, "3-hop": 0}
     one_hop_paths = []
     two_hop_paths = []
     three_hop_paths = []
 
     async def dfs(current, target, path, depth):
 
-        if depth > 3: 
+        if depth > 3:
             return
-        if current == target: 
+        if current == target:
             result[(path[0], target)]["paths"].append(list(path))
             for u, v in zip(path[:-1], path[1:]):
                 result[(path[0], target)]["edges"].add(tuple(sorted((u, v))))
@@ -1038,9 +1037,9 @@ async def find_paths_and_edges_with_stats(graph, target_nodes):
                 path_stats["3-hop"] += 1
                 three_hop_paths.append(list(path))
             return
-        neighbors = graph.neighbors(current) 
+        neighbors = graph.neighbors(current)
         for neighbor in neighbors:
-            if neighbor not in path:  
+            if neighbor not in path:
                 await dfs(neighbor, target, path + [neighbor], depth + 1)
 
     for node1 in target_nodes:
@@ -1053,13 +1052,13 @@ async def find_paths_and_edges_with_stats(graph, target_nodes):
 
     return dict(result), path_stats , one_hop_paths, two_hop_paths, three_hop_paths
 def bfs_weighted_paths(G, path, source, target, threshold, alpha):
-    results = [] 
-    edge_weights = defaultdict(float)  
+    results = []
+    edge_weights = defaultdict(float)
     node = source
     follow_dict = {}
 
     for p in path:
-        for i in range(len(p) - 1):  
+        for i in range(len(p) - 1):
             current = p[i]
             next_num = p[i + 1]
 
@@ -1074,7 +1073,7 @@ def bfs_weighted_paths(G, path, source, target, threshold, alpha):
         if neighbor == target:
             results.append(([node, neighbor]))
             continue
-        
+
         if edge_weights[(node, neighbor)] > threshold:
 
             for second_neighbor in follow_dict[neighbor]:
@@ -1085,10 +1084,10 @@ def bfs_weighted_paths(G, path, source, target, threshold, alpha):
                     results.append(([node, neighbor, second_neighbor]))
                     continue
 
-                if edge_weights[(neighbor, second_neighbor)] > threshold:    
+                if edge_weights[(neighbor, second_neighbor)] > threshold:
 
                     for third_neighbor in follow_dict[second_neighbor]:
-                        weight = edge_weights[(neighbor, second_neighbor)] * alpha / len(follow_dict[second_neighbor]) 
+                        weight = edge_weights[(neighbor, second_neighbor)] * alpha / len(follow_dict[second_neighbor])
                         edge_weights[(second_neighbor, third_neighbor)] += weight
 
                         if third_neighbor == target :
@@ -1099,7 +1098,7 @@ def bfs_weighted_paths(G, path, source, target, threshold, alpha):
         path_weight = 0
         for i in range(len(p) - 1):
             edge = (p[i], p[i + 1])
-            path_weight += edge_weights.get(edge, 0)  
+            path_weight += edge_weights.get(edge, 0)
         path_weights.append(path_weight/(len(p)-1))
 
     combined = [(p, w) for p, w in zip(path, path_weights)]
@@ -1109,26 +1108,26 @@ async def _find_most_related_edges_from_entities3(
     node_datas: list[dict],
     query_param: QueryParam,
     knowledge_graph_inst: BaseGraphStorage,
-):  
+):
 
     G = nx.Graph()
     edges = await knowledge_graph_inst.edges()
     nodes = await knowledge_graph_inst.nodes()
 
     for u, v in edges:
-        G.add_edge(u, v) 
+        G.add_edge(u, v)
     G.add_nodes_from(nodes)
     source_nodes = [dp["entity_name"] for dp in node_datas]
     result, path_stats, one_hop_paths, two_hop_paths, three_hop_paths = await find_paths_and_edges_with_stats(G, source_nodes)
 
 
     threshold = 0.3
-    alpha = 0.8 
+    alpha = 0.8
     all_results = []
-    
-    for node1 in source_nodes: 
-        for node2 in source_nodes: 
-            if node1 != node2: 
+
+    for node1 in source_nodes:
+        for node2 in source_nodes:
+            if node1 != node2:
                 if (node1, node2) in result:
                     sub_G = nx.Graph()
                     paths = result[(node1,node2)]['paths']
@@ -1142,13 +1141,13 @@ async def _find_most_related_edges_from_entities3(
     for edge, weight in all_results:
         sorted_edge = tuple(sorted(edge))
         if sorted_edge not in seen:
-            seen.add(sorted_edge)  
-            result_edge.append((edge, weight))  
+            seen.add(sorted_edge)
+            result_edge.append((edge, weight))
 
-    
+
     length_1 = int(len(one_hop_paths)/2)
-    length_2 = int(len(two_hop_paths)/2) 
-    length_3 = int(len(three_hop_paths)/2) 
+    length_2 = int(len(two_hop_paths)/2)
+    length_3 = int(len(three_hop_paths)/2)
     results = []
     if one_hop_paths!=[]:
         results = one_hop_paths[0:length_1]
@@ -1165,7 +1164,7 @@ async def _find_most_related_edges_from_entities3(
     if result_edge:
         if len(result_edge)>total_edges:
             sort_result = result_edge[0:total_edges]
-        else : 
+        else :
             sort_result = result_edge
     final_result = []
     for edge, weight in sort_result:
@@ -1231,7 +1230,7 @@ async def _find_most_related_edges_from_entities3(
 
 
     relationship = truncate_list_by_token_size(
-          relationship, 
+          relationship,
           key=lambda x: x[0],
           max_token_size=query_param.max_token_for_local_context,
     )

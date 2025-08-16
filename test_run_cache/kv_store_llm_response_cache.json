@@ -1,0 +1,12 @@
+{
+  "local": {
+    "a50a712cb28bbb7cf9986692c69a6f4f": {
+      "return": "LiteLLM is an organization that has created a library.  This library provides a uniform interface for interacting with various large language models (LLMs).  In essence, it serves as a tool to help users access and utilize different LLMs.  LLMs themselves are a category of artificial intelligence models designed to understand and generate human-like text.\n",
+      "embedding": null,
+      "embedding_shape": null,
+      "embedding_min": null,
+      "embedding_max": null,
+      "original_prompt": "What is LiteLLM?"
+    }
+  }
+}
