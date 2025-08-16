@@ -1,0 +1,14 @@
+# Caches
+test_run_cache/
+PathRAG_cache_*/
+
+# Python
+__pycache__/
+*.pyc
+
+# Build artifacts
+build/
+PathRAG.egg-info/
+
+# Logs
+PathRAG.log
