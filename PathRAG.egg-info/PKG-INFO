@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: PathRAG
+Version: 0.1.0
+Summary: A RAG library for path-based graph queries.
+Requires-Dist: aiohttp
+Requires-Dist: litellm
+Requires-Dist: python-dotenv
+Requires-Dist: numpy
+Requires-Dist: graspologic
+Requires-Dist: hnswlib
+Requires-Dist: nano-vectordb
+Requires-Dist: neo4j
+Requires-Dist: networkx
+Requires-Dist: oracledb
+Requires-Dist: psycopg[binary,pool]
+Requires-Dist: pymilvus
+Requires-Dist: pymongo
+Requires-Dist: pymysql
+Requires-Dist: pyvis
+Requires-Dist: sqlalchemy
+Requires-Dist: tenacity
+Requires-Dist: tiktoken
+Requires-Dist: xxhash

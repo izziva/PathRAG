@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d1" for="node" attr.name="description" attr.type="string" />
+  <key id="d0" for="node" attr.name="entity_type" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="&quot;LITELLM&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"LiteLLM is a library providing a uniform interface for interacting with various large language models.  It acts as a facilitator for accessing and utilizing different LLMs."</data>
+      <data key="d2">chunk-b8aabcd77180bba7f86e856b2f6ccb8e</data>
+    </node>
+    <node id="&quot;LARGE LANGUAGE MODELS&quot;">
+      <data key="d0">"CATEGORY"</data>
+      <data key="d1">"Large Language Models (LLMs) are a category of artificial intelligence models capable of understanding and generating human-like text."</data>
+      <data key="d2">chunk-b8aabcd77180bba7f86e856b2f6ccb8e</data>
+    </node>
+  </graph>
+</graphml>

@@ -34,10 +34,10 @@ async def main():
     print("--- End of Response ---")
 
     # Verify that the response is not empty
-    if response and response.get('answer'):
-        print("Test PASSED: Received a non-empty answer.")
+    if response and isinstance(response, str) and response.strip():
+        print("Test PASSED: Received a non-empty string answer.")
     else:
-        print("Test FAILED: Did not receive a valid answer.")
+        print(f"Test FAILED: Received an invalid or empty response: {response}")
 
 if __name__ == "__main__":
     # In order to run this test, you need to have a .env file in the root directory
